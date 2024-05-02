@@ -4,14 +4,13 @@ import OverviewCard from '../components/OverviewCard';
 import AddTransactionButton from '../components/AddTransactionButton';
 import TransactionList from '../components/TransactionList';
 
-const MainScreen = () => {
+const MainPage = () => {
   // State variables for managing data
-  const [balance, setBalance] = useState(0); 
+  const [balance, setBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
 
   //  Example: Fetch initial data (Adapt this to your data source)
   useEffect(() => {
-    // Placeholder - Load from local storage or an API 
     const initialTransactions = [
        { id: '1', description: 'Salary', amount: 3000, type: 'income' },
        { id: '2', description: 'Groceries', amount: -80, type: 'expense' }, 
@@ -19,9 +18,24 @@ const MainScreen = () => {
     setTransactions(initialTransactions);
   }, []);
 
-  // Functions to handle adding and updating transactions (implementation later)
-  const addTransactionHandler = (newTransaction) => { ... };
-  const updateTransactionHandler = (updatedTransaction) => { ... };
+  // Functions to handle adding and updating transactions (basic implementation)
+  const addTransactionHandler = (newTransaction) => {
+    setTransactions([...transactions, newTransaction]);
+    // Update balance based on transaction type (implement logic here)
+  };
+
+  const updateTransactionHandler = (updatedTransaction) => {
+    // Find the transaction to update
+    const transactionIndex = transactions.findIndex(item => item.id === updatedTransaction.id);
+    
+    // Update the transaction data and state
+    if (transactionIndex !== -1) {
+      const updatedTransactions = [...transactions];
+      updatedTransactions[transactionIndex] = updatedTransaction;
+      setTransactions(updatedTransactions);
+      // Update balance based on transaction changes (implement logic here)
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -49,8 +63,9 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   transactionList: {
-    // ... Add styles for your list
+    flex: 1,
+    marginBottom: 20,
   },
 });
 
-export default MainScreen;
+export default MainPage;
