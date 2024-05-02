@@ -36,12 +36,33 @@ const MainPage = () => {
       // Update balance based on transaction changes (implement logic here)
     }
   };
+  const calculateBalance = (transactions) => {
+    const total = transactions.reduce((acc, transaction) => {
+      return transaction.type === 'income' ? acc + transaction.amount : acc - transaction.amount;
+    }, 0);
+    setBalance(total);
+  };
+  
+  useEffect(() => {
+    calculateBalance(transactions); // Initial balance calculation
+  }, [transactions]);
+  const [addTransactionVisible, setAddTransactionVisible] = useState(false);
 
+const toggleAddTransactionVisibility = () => {
+  setAddTransactionVisible(!addTransactionVisible);
+};
+
+
+
+  
   return (
     <View style={styles.container}>
       <OverviewCard currentBalance={balance} /> 
-      
-      <AddTransactionButton onAddTransaction={addTransactionHandler} />  
+      <AddTransactionButton
+  onAddTransaction={addTransactionHandler}
+  isVisible={addTransactionVisible}
+  onToggleVisibility={toggleAddTransactionVisibility}
+/>
       
       <FlatList 
         style={styles.transactionList}
@@ -61,6 +82,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
+    marginTop: 35, // Add top margin
+  },
+  welcomeContainer: {
+    marginBottom: 15, // Add spacing below welcome text
+  },
+  welcomeText: {
+    fontSize: 22,
+    fontWeight: '600',
   },
   transactionList: {
     flex: 1,
