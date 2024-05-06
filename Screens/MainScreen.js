@@ -1,10 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, View, Text, FlatList } from 'react-native';
+import { StyleSheet, View, Text, FlatList, TouchableOpacity } from 'react-native';
 import OverviewCard from '../components/OverviewCard';
 import AddTransactionButton from '../components/AddTransactionButton';
 import TransactionList from '../components/TransactionList';
+import { useNavigation } from '@react-navigation/native';
 
 const MainPage = () => {
+  const navigation = useNavigation();
+
+
   // State variables for managing data
   const [balance, setBalance] = useState(0);
   const [transactions, setTransactions] = useState([]);
@@ -57,6 +61,10 @@ const toggleAddTransactionVisibility = () => {
   
   return (
     <View style={styles.container}>
+      <View style={styles.welcomeContainer}> 
+        <Text style={styles.welcomeText}>Welcome, User!</Text> 
+      </View>
+
       <OverviewCard currentBalance={balance} /> 
       <AddTransactionButton
   onAddTransaction={addTransactionHandler}
@@ -74,11 +82,21 @@ const toggleAddTransactionVisibility = () => {
             onUpdateTransaction={updateTransactionHandler} />
         )}
       />
+        <TouchableOpacity style={styles.investmentsButton} onPress={() => navigation.navigate('InvestmentScreen')}>
+        <Text style={styles.investmentsButtonText}>View Investments</Text>
+      </TouchableOpacity>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  welcomeContainer: {
+    marginBottom: 15, // Add spacing below welcome text
+  },
+  welcomeText: {
+    fontSize: 22,
+    fontWeight: '600',
+  },
   container: {
     flex: 1,
     padding: 20,
@@ -91,9 +109,15 @@ const styles = StyleSheet.create({
     fontSize: 22,
     fontWeight: '600',
   },
-  transactionList: {
-    flex: 1,
-    marginBottom: 20,
+  investmentsButton: {
+    backgroundColor: '#4578AB', // Example color
+    padding: 15,
+    borderRadius: 5,
+    alignItems: 'center', // Center the text
+  },
+  investmentsButtonText: {
+    color: 'white',
+    fontWeight: 'bold',
   },
 });
 
