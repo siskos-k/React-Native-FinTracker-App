@@ -2,14 +2,23 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
-const OverviewCard = ({ currentBalance }) => {
+const currencySymbols = {
+  USD: '$',
+  EUR: '€',
+  GBP: '£',
+};
+
+const OverviewCard = ({ currentBalance, selectedCurrency }) => { // Pass selectedCurrency
   return (
     <View style={styles.card}>
       <Text style={styles.cardTitle}>Current Balance</Text>
-      <Text style={styles.balanceText}>${currentBalance.toFixed(2)}</Text>
+      <Text style={styles.balanceText}>
+        {currencySymbols[selectedCurrency]} {currentBalance.toFixed(2)} 
+      </Text>
     </View>
   );
 };
+
 
 const styles = StyleSheet.create({
   card: {
